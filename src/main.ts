@@ -16,8 +16,10 @@ import { createApp } from 'vue'
 // Routes
 import { createMemoryHistory, createRouter } from 'vue-router'
 import Login from "./pages/login.vue";
+import Register from "./pages/register.vue";
 const routes = [
-  {path: '/login', component: Login}
+  {path: '/login', component: Login},
+  {path: '/register', component: Register}
 ]
 
 
