@@ -94,7 +94,6 @@ let dialog = ref(false);
         </v-btn>
         <v-btn
           color="primary"
-          href="/logout"
           @click="logout"
         >
           Logout
@@ -156,7 +155,7 @@ let dialog = ref(false);
       max-width="500"
       v-model="dialog"
   >
-    <v-card>
+    <v-card class="pa-5">
       <v-card-title>
         <!-- centered -->
         <div >New Application</div>

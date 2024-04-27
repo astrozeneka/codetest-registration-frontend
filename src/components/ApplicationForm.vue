@@ -35,6 +35,8 @@ const submitApplication = () => {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data);
+          // Refresh page
+          window.location.reload();
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -51,7 +53,7 @@ const submitApplication = () => {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data);
-          // Redirect to home page
+          window.location.reload();
         })
         .catch((error) => {
           console.error('Error:', error);
