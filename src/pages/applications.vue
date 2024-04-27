@@ -68,6 +68,30 @@ const logout = () => {
 let dialogEntity = ref<any>({});
 let dialog = ref(false);
 
+// EXPORT AS CSV
+const exportCSV = () => {
+  fetch('http://localhost:8000/applications/export', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  })
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'applications.csv');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+};
+
 </script>
 
 <template>
@@ -87,15 +111,25 @@ let dialog = ref(false);
       </div>
       <div class="top-button-group">
         <v-btn
+          color="success"
+          @click="exportCSV"
+        >
+          <!-- icon -->
+          <v-icon left>mdi-file-export</v-icon>
+          Export as CSV
+        </v-btn>
+        <v-btn
           color="primary"
           @click="newApplication"
         >
+          <v-icon left>mdi-plus</v-icon>
           New Application
         </v-btn>
         <v-btn
           color="primary"
           @click="logout"
         >
+          <v-icon left>mdi-logout</v-icon>
           Logout
         </v-btn>
       </div>
@@ -127,6 +161,7 @@ let dialog = ref(false);
                 color="primary"
                 @click="downloadResume"
               >
+                <v-icon left>mdi-download</v-icon>
                 Download
               </v-btn>
             </td>
@@ -135,12 +170,14 @@ let dialog = ref(false);
                 color="primary"
                 @click="editApplication(entity)"
               >
+                <v-icon left>mdi-pencil</v-icon>
                 Edit
               </v-btn>
               <v-btn
                 color="error"
                 @click="deleteApplication(entity.id)"
               >
+                <v-icon left>mdi-delete</v-icon>
                 Delete
               </v-btn>
             </td>
