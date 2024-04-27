@@ -9,3 +9,9 @@
 <script lang="ts" setup>
   //
 </script>
+<style>
+
+a{
+  text-decoration: none;
+}
+</style>

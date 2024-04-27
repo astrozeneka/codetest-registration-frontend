@@ -8,24 +8,37 @@
         class="align-centerfill-height mx-auto"
         max-width="900"
     >
-
       <v-img
           class="mb-4"
           height="150"
           src="@/assets/logo.png"
       />
       <div class="text-center">
-        <h4 class="text-h4 font-weight-bold">Register application</h4>
+        <h4 class="text-h4 font-weight-bold">Welcome</h4>
         <br/><br/><br/>
       </div>
-      <ApplicationForm :entity="{}"></ApplicationForm>
-      <p class="pa-5">
-        Go back to <router-link to="/home">Home</router-link>
-      </p>
+      <div class="menu-button-group">
+        <v-btn
+          color="primary"
+          href="/login"
+        >
+          Login as admin
+        </v-btn>
+        <v-btn
+          color="primary"
+          href="/register"
+        >
+          Register
+        </v-btn>
+      </div>
     </v-responsive>
   </v-container>
 </template>
 
 <style scoped>
-
+.menu-button-group{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
 </style>

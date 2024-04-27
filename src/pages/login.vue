@@ -10,7 +10,7 @@
         src="@/assets/logo.png"
       />
       <div class="text-center">
-        <h4 class="text-h4 font-weight-bold">Welcome</h4>
+        <h4 class="text-h4 font-weight-bold">Login</h4>
         <br/><br/><br/>
       </div>
       <v-form>
@@ -35,7 +35,9 @@
           Login
         </v-btn>
       </v-form>
-
+      <p class="pa-5">
+        Go back to <router-link to="/home">Home</router-link>
+      </p>
     </v-responsive>
   </v-container>
 </template>
@@ -65,7 +67,7 @@ function login() {
     .then(data => {
       console.log('Success:', data);
       localStorage.setItem('token', data.access_token);
-      // Redirect to home page
+      window.location.href = '/applications';
     })
     .catch((error) => {
       console.error('Error:', error);

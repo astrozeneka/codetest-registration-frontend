@@ -17,14 +17,22 @@ import { createApp } from 'vue'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import Login from "./pages/login.vue";
 import Register from "./pages/register.vue";
-const routes = [
+import Applications from "./pages/applications.vue";
+import Home from "./pages/home.vue";
+/*const routes = [
+  {path: '/', redirect: '/home'},
+  {path: '/home', component: Home},
   {path: '/login', component: Login},
-  {path: '/register', component: Register}
-]
+  {path: '/register', component: Register},
+  {path: '/applications', component: Applications}
+]*/
 
 
 
 const app = createApp(App)
+// Add routes
+
+
 
 registerPlugins(app)
 

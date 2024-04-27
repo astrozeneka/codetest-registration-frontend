@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import {prepareFormData} from "../utils";
 
 let firstName = ref('')
@@ -14,6 +14,7 @@ const submitApplication = () => {
   console.log('submitApplication')
   // Send POST a request to http://localhost:8000/applications with form data
   let data = {
+    id: props.entity.id,
     firstname: firstName.value, // Warning in typo
     lastname: lastName.value, // Warning in typo
     email: email.value,
@@ -22,46 +23,60 @@ const submitApplication = () => {
     expected_salary: expectedSalary.value,
     resume: resume.value
   }
-  console.debug("Bearer " + localStorage.getItem('token'))
-  /*fetch("http://localhost:8000/applications", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    },
-    body: prepareFormData(data)
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      // Redirect to home page
+  if(data.id !== undefined) {
+    fetch("http://localhost:8000/applications", {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify(data)
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });*/
-  // Send as JSON
-  fetch("http://localhost:8000/applications", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      // Redirect to home page
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  }else{
+    fetch("http://localhost:8000/applications", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify(data)
     })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          // Redirect to home page
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  }
 }
 
+// The properties
+const props = defineProps(['entity'])
+
+onMounted(() => {
+  console.log('Entity:', props.entity)
+  // Patch to the form
+  firstName.value = props.entity.firstname
+  lastName.value = props.entity.lastname
+  email.value = props.entity.email
+  phone.value = props.entity.phone
+  address.value = props.entity.address
+  expectedSalary.value = props.entity.expected_salary
+  resume.value = props.entity.resume
+})
 </script>
 
 <template>
-  <v-container class="fill-height">
+  <div>
     <v-responsive
         class="align-centerfill-height mx-auto"
         max-width="900"
@@ -119,7 +134,7 @@ const submitApplication = () => {
       </v-form>
 
     </v-responsive>
-  </v-container>
+  </div>
 </template>
 
 <style scoped>
