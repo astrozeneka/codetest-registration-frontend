@@ -65,13 +65,17 @@ function login() {
   })
     .then(response => response.json())
     .then(data => {
-      console.log('Success:', data);
+      if(data.detail){
+        registerFeedback('Login failed', 'error')
+        window.location.reload();
+        return;
+      }
       localStorage.setItem('token', data.access_token);
       registerFeedback('Login successfully', 'success')
       window.location.href = '/applications';
     })
     .catch((error) => {
-      console.error('Error:', error);
+      window.location.reload();
     });
 }
 </script>
