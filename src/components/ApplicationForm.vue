@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {prepareFormData} from "../utils";
 
 let firstName = ref('')
@@ -75,6 +75,12 @@ onMounted(() => {
   expectedSalary.value = props.entity.expected_salary
   resume.value = props.entity.resume
 })
+
+// The form validation
+const buttonDisabled = computed(() => {
+  return !firstName.value || !lastName.value || !email.value || !phone.value || !expectedSalary.value
+})
+
 </script>
 
 <template>
@@ -83,53 +89,64 @@ onMounted(() => {
         class="align-centerfill-height mx-auto"
         max-width="900"
     >
-      <v-form>
+      <v-form class="form">
         <v-text-field
-          label="First Name"
+          label="First Name (Required)"
           outlined
           v-model="firstName"
           :rules="[v => !!v || 'First Name is required']">
         </v-text-field>
+        <br/>
         <v-text-field
-          label="Last Name"
+          label="Last Name (Required)"
           outlined
           v-model="lastName"
           :rules="[v => !!v || 'Last Name is required']">
         </v-text-field>
+        <br/>
         <v-text-field
-          label="Email"
+          label="Email (Required)"
           outlined
           v-model="email"
-          :rules="[v => !!v || 'Email is required']">
+          :rules="[v => !!v || 'Email is required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid']"
+        >
         </v-text-field>
+        <br/>
         <v-text-field
-          label="Phone"
+          label="Phone (Required)"
           outlined
           v-model="phone"
-          :rules="[v => !!v || 'Phone is required']">
+          :rules="[v => !!v || 'Phone is required', v => /^\+?[0-9]+$/.test(v) || 'Phone must be valid']"
+        >
         </v-text-field>
+        <br/>
         <v-text-field
           label="Address"
           outlined
           v-model="address"
           :rules="[v => !!v || 'Address is required']">
         </v-text-field>
+        <br/>
         <v-text-field
-          label="Expected Salary"
+          label="Expected Salary (Required)"
+          type="number"
           outlined
           v-model="expectedSalary"
           :rules="[v => !!v || 'Expected Salary is required']">
         </v-text-field>
+        <br/>
         <v-file-input
           label="Resume"
           outlined
           v-model="resume"
           :rules="[v => !!v || 'Resume is required']">
         </v-file-input>
+        <br/>
         <v-btn
           block
           color="primary"
           @click="submitApplication"
+          :disabled="buttonDisabled"
         >
           Send
         </v-btn>
@@ -140,5 +157,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+.form{
+  line-height: .5em;
+}
 </style>
