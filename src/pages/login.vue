@@ -36,7 +36,7 @@
         </v-btn>
       </v-form>
       <p class="pa-5">
-        Go back to <router-link to="/home">Home</router-link>
+        Go back to <router-link to="/">Home</router-link>
       </p>
     </v-responsive>
   </v-container>

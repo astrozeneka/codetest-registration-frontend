@@ -92,6 +92,44 @@ const exportCSV = () => {
     });
 };
 
+// <input type="file" ref="fileInput" style="display: none" @change="fileChanged">
+
+// Manage CSV import
+const fileInput = ref(null);
+const fileChanged = () => {
+  const file = fileInput.value.files[0];
+  // read the file
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const content = e.target.result;
+    console.log(content);
+    // Send a POST request to http://localhost:8000/applications/import with form data
+    let data = {
+      content: content
+    }
+    fetch("http://localhost:8000/applications/import", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+  reader.readAsText(file);
+};
+const clickImportCSV = () => {
+  fileInput.value.click();
+};
+
 </script>
 
 <template>
@@ -110,6 +148,13 @@ const exportCSV = () => {
         <br/><br/><br/>
       </div>
       <div class="top-button-group">
+        <input type="file" ref="fileInput" style="display: none" @change="fileChanged" accept="text/csv">
+        <v-btn
+          color="success"
+          @click="clickImportCSV">
+          <v-icon left>mdi-file-import</v-icon>
+          Import from CSV
+        </v-btn>
         <v-btn
           color="success"
           @click="exportCSV"
