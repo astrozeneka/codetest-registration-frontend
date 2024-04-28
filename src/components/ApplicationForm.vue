@@ -10,19 +10,7 @@ let address = ref('')
 let expectedSalary = ref('')
 let resume = ref('')
 
-const submitApplication = () => {
-  console.log('submitApplication')
-  // Send POST a request to http://localhost:8000/applications with form data
-  let data = {
-    id: props.entity.id,
-    firstname: firstName.value, // Warning in typo
-    lastname: lastName.value, // Warning in typo
-    email: email.value,
-    phone: phone.value,
-    address: address.value,
-    expected_salary: expectedSalary.value,
-    resume: resume.value
-  }
+let uploadForm = (data) => {
   if(data.id !== undefined) {
     fetch("http://localhost:8000/applications", {
       method: 'PUT',
@@ -60,6 +48,36 @@ const submitApplication = () => {
           console.error('Error:', error);
         });
   }
+}
+
+const submitApplication = () => {
+  console.log('submitApplication')
+  // Send POST a request to http://localhost:8000/applications with form data
+  let data = {
+    id: props.entity.id,
+    firstname: firstName.value, // Warning in typo
+    lastname: lastName.value, // Warning in typo
+    email: email.value,
+    phone: phone.value,
+    address: address.value,
+    expected_salary: expectedSalary.value,
+    resume: null,
+    resumeBase64: null
+  }
+  console.log(resume.value)
+  if(resume.value === null || resume.value == '' || resume.value == undefined){ // Is optional
+    console.log('No resume')
+    uploadForm(data);
+    return;
+  }
+  let file:any = resume.value;
+  let reader = new FileReader();
+  reader.onloadend = function() {
+    data.resumeBase64 = reader.result;
+    data.resume = file.name;
+    uploadForm(data);
+  }
+  reader.readAsDataURL(file);
 }
 
 // The properties

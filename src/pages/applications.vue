@@ -205,13 +205,9 @@ const clickImportCSV = () => {
             <td>{{ entity.address }}</td>
             <td>{{ entity.expected_salary }}</td>
             <td>
-              <v-btn
-                color="primary"
-                @click="downloadResume"
-              >
-                <v-icon left>mdi-download</v-icon>
-                Download
-              </v-btn>
+              <a :href="'http://localhost:8000/' + entity.resume" target="_blank" v-if="entity.resume && entity.resume != ''">
+                {{ entity.resume }}
+              </a>
             </td>
             <td>
               <v-btn
