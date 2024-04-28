@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
+import {registerFeedback} from "../utils";
 
 let entityList = ref<any[]>([]);
 
@@ -61,6 +62,7 @@ const newApplication = () => {
 
 const logout = () => {
   localStorage.removeItem('token');
+  registerFeedback('Logout successfully')
   window.location.href = '/login';
 };
 
@@ -118,6 +120,7 @@ const fileChanged = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
+        registerFeedback("CSV File was imported")
         window.location.reload();
       })
       .catch((error) => {

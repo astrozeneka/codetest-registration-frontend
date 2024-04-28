@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue'
-import {prepareFormData} from "../utils";
+import {prepareFormData, registerFeedback} from "../utils";
 
 let firstName = ref('')
 let lastName = ref('')
@@ -35,7 +35,7 @@ const submitApplication = () => {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data);
-          // Refresh page
+          registerFeedback('Application updated successfully', 'success')
           window.location.reload();
         })
         .catch((error) => {
@@ -53,6 +53,7 @@ const submitApplication = () => {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data);
+          registerFeedback('Application submitted successfully', 'success')
           window.location.reload();
         })
         .catch((error) => {

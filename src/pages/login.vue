@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import {prepareFormData} from "../utils";
+import {prepareFormData, registerFeedback} from "../utils";
 let email = ref('');
 let password = ref('');
 function login() {
@@ -67,6 +67,7 @@ function login() {
     .then(data => {
       console.log('Success:', data);
       localStorage.setItem('token', data.access_token);
+      registerFeedback('Login successfully', 'success')
       window.location.href = '/applications';
     })
     .catch((error) => {

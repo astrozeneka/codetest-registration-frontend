@@ -9,3 +9,7 @@ export const prepareFormData = (data:any) => {
   formBody = formBody.join('&');
   return formBody;
 }
+
+export const registerFeedback = (message:string, color='info') => {
+  localStorage.setItem('feedback', JSON.stringify({message, color}));
+}
